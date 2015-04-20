@@ -13,11 +13,11 @@
 		//$authProvider.signupUrl = 'http://localhost:8080/auth/signup';
 
 		$authProvider.facebook({
-			clientId: '343789249146966'
+			clientId: 'facebook_client_id'
 		});
 
 		$authProvider.google({
-			clientId: '479651367330-trvf8efoo415ie0usfhm4i59410vk3j9.apps.googleusercontent.com'
+			clientId: 'google_client_id'
 		});
 
 		$authProvider.twitter({
@@ -25,7 +25,7 @@
 		});
 
 		$authProvider.github({
-			clientId: '8096e95c2eba33b81adb'
+			clientId: 'github_client_id'
 		});
 	}
 
