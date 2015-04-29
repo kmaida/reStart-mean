@@ -2,15 +2,18 @@
 	 NAVIGATION
 --------------------*/
 
-/*------------------------------------------------------------------------- Header menu toggle --*/
+/*------------------------------------------------------------------------- Hamburger menu toggle --*/
 
 .toggle-offcanvas {
 	background: $color-black-light;
+	border-right: 1px solid $color-gray-rgba;
+	display: inline-block;
 	height: 50px;
 	padding: 23.5px 13px;
-	position: absolute;
+	position: relative;
 	text-align: center;
 	width: 50px;
+	z-index: 100;
 
 	span,
 	span:before,
@@ -31,6 +34,10 @@
 		&:after {
 			bottom: -9px;
 		}
+	}
+	&.disabled {
+		cursor: not-allowed;
+		opacity: .15;
 	}
 	.nav-open & {
 		span {

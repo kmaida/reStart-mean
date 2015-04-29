@@ -11,6 +11,12 @@
 		// controllerAs ViewModel
 		var login = this;
 
+		/**
+		 * Function to run when local data successful
+		 *
+		 * @param data {JSON}
+		 * @private
+		 */
 		function _localDataSuccess(data) {
 			login.localData = data;
 		}
