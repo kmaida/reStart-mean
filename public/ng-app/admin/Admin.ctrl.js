@@ -38,6 +38,17 @@
 			admin.showAdmin = true;
 		}
 
-		userData.getAllUsers().then(_getAllUsersSuccess);
+		/**
+		 * Function for unsuccessful API call getting user list
+		 * Show Unauthorized error
+		 *
+		 * @param error {error} response
+		 * @private
+		 */
+		function _getAllUsersError(error) {
+			admin.showAdmin = false;
+		}
+
+		userData.getAllUsers().then(_getAllUsersSuccess, _getAllUsersError);
 	}
 })();

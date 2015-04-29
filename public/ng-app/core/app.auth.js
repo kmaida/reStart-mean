@@ -9,15 +9,15 @@
 	authConfig.$inject = ['$authProvider'];
 
 	function authConfig($authProvider) {
-		$authProvider.loginUrl = 'http://localhost:8080/auth/login';
-		//$authProvider.signupUrl = 'http://localhost:8080/auth/signup';
+		$authProvider.loginUrl = 'http://localhost:8081/auth/login';
+		//$authProvider.signupUrl = 'http://localhost:8081/auth/signup';
 
 		$authProvider.facebook({
-			clientId: 'facebook_client_id'
+			clientId: '343789249146966'	// provide your own client ID
 		});
 
 		$authProvider.google({
-			clientId: 'google_client_id'
+			clientId: '479651367330-trvf8efoo415ie0usfhm4i59410vk3j9.apps.googleusercontent.com'	// provide your own client ID
 		});
 
 		$authProvider.twitter({
@@ -25,7 +25,7 @@
 		});
 
 		$authProvider.github({
-			clientId: 'github_client_id'
+			clientId: '8096e95c2eba33b81adb'	// provide your own client ID
 		});
 	}
 
@@ -33,13 +33,13 @@
 
 	function authRun($rootScope, $location, $auth) {
 		$rootScope.$on('$routeChangeStart', function(event, next, current) {
-			if (next && next.$$route && next.$$route.secure) {
-				// If user is not authenticated, send them back to /login
-				if (!$auth.isAuthenticated()) {
-					$rootScope.$evalAsync(function() {
-						$location.path('/login');
-					});
-				}
+			if (next && next.$$route && next.$$route.secure && !$auth.isAuthenticated()) {
+				$rootScope.authPath = $location.path();
+
+				$rootScope.$evalAsync(function() {
+					// send user to login
+					$location.path('/login');
+				});
 			}
 		});
 	}
