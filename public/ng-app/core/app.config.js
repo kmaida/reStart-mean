@@ -12,17 +12,25 @@
 		$routeProvider
 			.when('/', {
 				templateUrl: 'ng-app/home/Home.view.html',
+				controller: 'HomeCtrl',
+				controllerAs: 'home',
 				secure: true
 			})
 			.when('/login', {
-				templateUrl: 'ng-app/login/Login.view.html'
+				templateUrl: 'ng-app/login/Login.view.html',
+				controller: 'LoginCtrl',
+				controllerAs: 'login'
 			})
 			.when('/account', {
 				templateUrl: 'ng-app/account/Account.view.html',
+				controller: 'AccountCtrl',
+				controllerAs: 'account',
 				secure: true
 			})
 			.when('/admin', {
 				templateUrl: 'ng-app/admin/Admin.view.html',
+				controller: 'AdminCtrl',
+				controllerAs: 'admin',
 				secure: true
 			})
 			.otherwise({
