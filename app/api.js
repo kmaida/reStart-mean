@@ -6,6 +6,19 @@ var User = require('./models/User');
 
 module.exports = function(app, config) {
 
+	var _defaultPicture = '/assets/images/img-user.png';
+
+	/**
+	 * Set default display name to last 5 characters of ID
+	 *
+	 * @param idStr {string} ID
+	 * @returns {string}
+	 * @private
+	 */
+	function _defaultDisplayName(idStr) {
+		return 'user' + idStr.substr(idStr.length - 5);
+	}
+
 	/*
 	 |--------------------------------------------------------------------------
 	 | Login Required Middleware
@@ -25,7 +38,15 @@ module.exports = function(app, config) {
 			return res.status(401).send({ message: 'Please make sure your request has an Authorization header' });
 		}
 		var token = req.headers.authorization.split(' ')[1];
-		var payload = jwt.decode(token, config.TOKEN_SECRET);
+
+		var payload = null;
+		try {
+			payload = jwt.decode(token, config.TOKEN_SECRET);
+		}
+		catch (err){
+			return res.status(401).send({message: err.message});
+		}
+
 		if (payload.exp <= moment().unix()) {
 			return res.status(401).send({ message: 'Token has expired' });
 		}
@@ -46,7 +67,15 @@ module.exports = function(app, config) {
 			return res.status(401).send({ message: 'Please make sure your request has an Authorization header' });
 		}
 		var token = req.headers.authorization.split(' ')[1];
-		var payload = jwt.decode(token, config.TOKEN_SECRET);
+
+		var payload = null;
+		try {
+			payload = jwt.decode(token, config.TOKEN_SECRET);
+		}
+		catch (err){
+			return res.status(401).send({message: err.message});
+		}
+
 		if (payload.exp <= moment().unix()) {
 			return res.status(401).send({ message: 'Token has expired' });
 		}
@@ -71,7 +100,7 @@ module.exports = function(app, config) {
 	 * @param user
 	 * @returns {*}
 	 */
-	function createToken(user) {
+	function createJWT(user) {
 		var payload = {
 			sub: user._id,
 			role: user.isAdmin,
@@ -88,6 +117,12 @@ module.exports = function(app, config) {
 	 */
 	app.get('/api/me', ensureAuthenticated, function(req, res) {
 		User.findById(req.user, function(err, user) {
+			if (!user.displayName) {
+				user.displayName = _defaultDisplayName(req.user);
+			}
+			if (!user.picture) {
+				user.picture = _defaultPicture;
+			}
 			res.send(user);
 		});
 	});
@@ -102,8 +137,8 @@ module.exports = function(app, config) {
 			if (!user) {
 				return res.status(400).send({ message: 'User not found' });
 			}
-			user.displayName = req.body.displayName || user.displayName;
-			// user.email = req.body.email || user.email;
+			user.displayName = req.body.displayName || user.displayName || _defaultDisplayName(req.user);
+			user.picture = user.picture || _defaultPicture;
 			user.save(function(err) {
 				res.status(200).end();
 			});
@@ -118,11 +153,16 @@ module.exports = function(app, config) {
 	app.get('/api/users', ensureAdmin, function(req, res) {
 		User.find({}, function(err, users) {
 			var userArr = [];
-
 			users.forEach(function(user) {
+				if (!user.displayName) {
+					var idStr = user._id.toString();
+					user.displayName = _defaultDisplayName(idStr);
+				}
+				if (!user.picture) {
+					user.picture = _defaultPicture;
+				}
 				userArr.push(user);
 			});
-
 			res.send(userArr);
 		});
 	});
@@ -204,10 +244,10 @@ module.exports = function(app, config) {
 								return res.status(400).send({ message: 'User not found' });
 							}
 							user.google = profile.sub;
-							user.picture = user.picture || profile.picture;
+							user.picture = user.picture || profile.picture.replace('sz=50', 'sz=200') || _defaultPicture;
 							user.displayName = user.displayName || profile.name;
 							user.save(function() {
-								var token = createToken(user);
+								var token = createJWT(user);
 								res.send({ token: token });
 							});
 						});
@@ -216,18 +256,18 @@ module.exports = function(app, config) {
 					// Step 3b. Create a new user account or return an existing one.
 					User.findOne({ google: profile.sub }, function(err, existingUser) {
 						if (existingUser) {
-							return res.send({ token: createToken(existingUser) });
+							return res.send({ token: createJWT(existingUser) });
 						}
 						var user = new User();
 						user.google = profile.sub;
-						user.picture = profile.picture;
+						user.picture = profile.picture.replace('sz=50', 'sz=200');
 						user.displayName = profile.name;
 
 						// TODO: to create an admin user, allow one-time isAdmin = true in one of the account creations
 						// user.isAdmin = true;
 
-						user.save(function() {
-							var token = createToken(user);
+						user.save(function(err) {
+							var token = createJWT(user);
 							res.send({ token: token });
 						});
 					});
@@ -272,10 +312,10 @@ module.exports = function(app, config) {
 								return res.status(400).send({ message: 'User not found' });
 							}
 							user.github = profile.id;
-							user.picture = user.picture || profile.avatar_url;
+							user.picture = user.picture || profile.avatar_url || _defaultPicture;
 							user.displayName = user.displayName || profile.name;
 							user.save(function() {
-								var token = createToken(user);
+								var token = createJWT(user);
 								res.send({ token: token });
 							});
 						});
@@ -284,7 +324,7 @@ module.exports = function(app, config) {
 					// Step 3b. Create a new user account or return an existing one.
 					User.findOne({ github: profile.id }, function(err, existingUser) {
 						if (existingUser) {
-							var token = createToken(existingUser);
+							var token = createJWT(existingUser);
 							return res.send({ token: token });
 						}
 						var user = new User();
@@ -292,7 +332,7 @@ module.exports = function(app, config) {
 						user.picture = profile.avatar_url;
 						user.displayName = profile.name;
 						user.save(function() {
-							var token = createToken(user);
+							var token = createJWT(user);
 							res.send({ token: token });
 						});
 					});
@@ -307,8 +347,8 @@ module.exports = function(app, config) {
 	 |--------------------------------------------------------------------------
 	 */
 	app.post('/auth/facebook', function(req, res) {
-		var accessTokenUrl = 'https://graph.facebook.com/oauth/access_token';
-		var graphApiUrl = 'https://graph.facebook.com/me';
+		var accessTokenUrl = 'https://graph.facebook.com/v2.3/oauth/access_token';
+		var graphApiUrl = 'https://graph.facebook.com/v2.3/me';
 		var params = {
 			code: req.body.code,
 			client_id: req.body.clientId,
@@ -321,7 +361,6 @@ module.exports = function(app, config) {
 			if (response.statusCode !== 200) {
 				return res.status(500).send({ message: accessToken.error.message });
 			}
-			accessToken = qs.parse(accessToken);
 
 			// Step 2. Retrieve profile information about the current user.
 			request.get({ url: graphApiUrl, qs: accessToken, json: true }, function(err, response, profile) {
@@ -340,10 +379,10 @@ module.exports = function(app, config) {
 								return res.status(400).send({ message: 'User not found' });
 							}
 							user.facebook = profile.id;
-							user.picture = user.picture || 'https://graph.facebook.com/' + profile.id + '/picture?type=small';
+							user.picture = user.picture || 'https://graph.facebook.com/v2.3/' + profile.id + '/picture?type=large';
 							user.displayName = user.displayName || profile.name;
 							user.save(function() {
-								var token = createToken(user);
+								var token = createJWT(user);
 								res.send({ token: token });
 							});
 						});
@@ -352,7 +391,7 @@ module.exports = function(app, config) {
 					// Step 3b. Create a new user account or return an existing one.
 					User.findOne({ facebook: profile.id }, function(err, existingUser) {
 						if (existingUser) {
-							var token = createToken(existingUser);
+							var token = createJWT(existingUser);
 							return res.send({ token: token });
 						}
 						var user = new User();
@@ -360,7 +399,7 @@ module.exports = function(app, config) {
 						user.picture = 'https://graph.facebook.com/' + profile.id + '/picture?type=small';
 						user.displayName = profile.name;
 						user.save(function() {
-							var token = createToken(user);
+							var token = createJWT(user);
 							res.send({ token: token });
 						});
 					});
@@ -374,12 +413,13 @@ module.exports = function(app, config) {
 	 | Login with Twitter
 	 |--------------------------------------------------------------------------
 	 */
-	app.get('/auth/twitter', function(req, res) {
+	app.post('/auth/twitter', function(req, res) {
 		var requestTokenUrl = 'https://api.twitter.com/oauth/request_token';
 		var accessTokenUrl = 'https://api.twitter.com/oauth/access_token';
-		var authenticateUrl = 'https://api.twitter.com/oauth/authenticate';
+		var profileUrl = 'https://api.twitter.com/1.1/users/show.json?screen_name=';
 
-		if (!req.query.oauth_token || !req.query.oauth_verifier) {
+		// Part 1 of 2: Initial request from Satellizer.
+		if (!req.body.oauth_token || !req.body.oauth_verifier) {
 			var requestTokenOauth = {
 				consumer_key: config.TWITTER_KEY,
 				consumer_secret: config.TWITTER_SECRET,
@@ -389,58 +429,73 @@ module.exports = function(app, config) {
 			// Step 1. Obtain request token for the authorization popup.
 			request.post({ url: requestTokenUrl, oauth: requestTokenOauth }, function(err, response, body) {
 				var oauthToken = qs.parse(body);
-				var params = qs.stringify({ oauth_token: oauthToken.oauth_token });
 
-				// Step 2. Redirect to the authorization screen.
-				res.redirect(authenticateUrl + '?' + params);
+				// Step 2. Send OAuth token back to open the authorization screen.
+				res.send(oauthToken);
 			});
 		} else {
+			// Part 2 of 2: Second request after Authorize app is clicked.
 			var accessTokenOauth = {
 				consumer_key: config.TWITTER_KEY,
 				consumer_secret: config.TWITTER_SECRET,
-				token: req.query.oauth_token,
-				verifier: req.query.oauth_verifier
+				token: req.body.oauth_token,
+				verifier: req.body.oauth_verifier
 			};
 
 			// Step 3. Exchange oauth token and oauth verifier for access token.
-			request.post({ url: accessTokenUrl, oauth: accessTokenOauth }, function(err, response, profile) {
-				profile = qs.parse(profile);
+			request.post({ url: accessTokenUrl, oauth: accessTokenOauth }, function(err, response, accessToken) {
 
-				// Step 4a. Link user accounts.
-				if (req.headers.authorization) {
-					User.findOne({ twitter: profile.user_id }, function(err, existingUser) {
-						if (existingUser) {
-							return res.status(409).send({ message: 'There is already a Twitter account that belongs to you' });
-						}
-						var token = req.headers.authorization.split(' ')[1];
-						var payload = jwt.decode(token, config.TOKEN_SECRET);
-						User.findById(payload.sub, function(err, user) {
-							if (!user) {
-								return res.status(400).send({ message: 'User not found' });
+				accessToken = qs.parse(accessToken);
+
+				var profileOauth = {
+					consumer_key: config.TWITTER_KEY,
+					consumer_secret: config.TWITTER_SECRET,
+					oauth_token: accessToken.oauth_token
+				};
+
+				// Step 4. Retrieve profile information about the current user.
+				request.get({ url: profileUrl + accessToken.screen_name, oauth: profileOauth, json: true }, function(err, response, profile) {
+
+					// Step 5a. Link user accounts.
+					if (req.headers.authorization) {
+						User.findOne({ twitter: profile.id }, function(err, existingUser) {
+							if (existingUser) {
+								return res.status(409).send({ message: 'There is already a Twitter account that belongs to you' });
 							}
-							user.twitter = profile.user_id;
-							user.displayName = user.displayName || profile.screen_name;
-							user.save(function(err) {
-								res.send({ token: createToken(user) });
+
+							var token = req.headers.authorization.split(' ')[1];
+							var payload = jwt.decode(token, config.TOKEN_SECRET);
+
+							User.findById(payload.sub, function(err, user) {
+								if (!user) {
+									return res.status(400).send({ message: 'User not found' });
+								}
+
+								user.twitter = profile.id;
+								user.displayName = user.displayName || profile.name;
+								user.picture = user.picture || profile.profile_image_url.replace('_normal', '') || _defaultPicture;
+								user.save(function(err) {
+									res.send({ token: createJWT(user) });
+								});
 							});
 						});
-					});
-				} else {
-					// Step 4b. Create a new user account or return an existing one.
-					User.findOne({ twitter: profile.user_id }, function(err, existingUser) {
-						if (existingUser) {
-							var token = createToken(existingUser);
-							return res.send({ token: token });
-						}
-						var user = new User();
-						user.twitter = profile.user_id;
-						user.displayName = profile.screen_name;
-						user.save(function() {
-							var token = createToken(user);
-							res.send({ token: token });
+					} else {
+						// Step 5b. Create a new user account or return an existing one.
+						User.findOne({ twitter: profile.id }, function(err, existingUser) {
+							if (existingUser) {
+								return res.send({ token: createJWT(existingUser) });
+							}
+
+							var user = new User();
+							user.twitter = profile.id;
+							user.displayName = profile.name;
+							user.picture = profile.profile_image_url.replace('_normal', '');
+							user.save(function() {
+								res.send({ token: createJWT(user) });
+							});
 						});
-					});
-				}
+					}
+				});
 			});
 		}
 	});
