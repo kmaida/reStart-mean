@@ -11,11 +11,12 @@ module.exports = function(app, config) {
 	/**
 	 * Set default display name to last 5 characters of ID
 	 *
-	 * @param idStr {string} ID
+	 * @param id {object|string} ID
 	 * @returns {string}
 	 * @private
 	 */
-	function _defaultDisplayName(idStr) {
+	function _defaultDisplayName(id) {
+		var idStr = id.toString();
 		return 'user' + idStr.substr(idStr.length - 5);
 	}
 
@@ -155,8 +156,7 @@ module.exports = function(app, config) {
 			var userArr = [];
 			users.forEach(function(user) {
 				if (!user.displayName) {
-					var idStr = user._id.toString();
-					user.displayName = _defaultDisplayName(idStr);
+					user.displayName = _defaultDisplayName(user._id);
 				}
 				if (!user.picture) {
 					user.picture = _defaultPicture;
