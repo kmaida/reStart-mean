@@ -9,7 +9,7 @@
 	authConfig.$inject = ['$authProvider'];
 
 	function authConfig($authProvider) {
-		$authProvider.loginUrl = 'http://localhost:8081/auth/login';
+		$authProvider.loginUrl = 'http://restart-mean.kmaida.net/auth/login';
 		//$authProvider.signupUrl = 'http://restart-mean.kmaida.net/auth/signup';
 
 		$authProvider.facebook({
