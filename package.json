@@ -1,6 +1,6 @@
 {
   "name": "reStart-mean",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "Kim Maida",
   "description": "A boilerplate MEAN stack application with simple Oauth",
   "main": "server.js",
@@ -11,7 +11,7 @@
   "keywords": [
     "angular"
   ],
-  "license": "Restricted",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/kmaida/reStart-mean/issues"
   },

@@ -17,6 +17,7 @@ Demo is available at [restart-mean.kmaida.net](http://restart-mean.kmaida.net).
  
 ## Changelog
  
+* **v0.1.6** - 8/23/15: Upgrade to Angular v1.4.4, jQuery v2.1.4, update license
 * **v0.1.5** - 5/29/15: Upgrade to Angular v1.4.0 
 * **v0.1.4** - 4/29/15: Additional enhancements to styles, features and tightening up, prepare for deployment 
 * **v0.1.3** - 4/17/15: Modified services to throw errors when returning strings, add UI alerts when API calls error,
