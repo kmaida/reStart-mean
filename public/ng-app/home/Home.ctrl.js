@@ -5,11 +5,13 @@
 		.module('myApp')
 		.controller('HomeCtrl', HomeCtrl);
 
-	HomeCtrl.$inject = ['$auth', 'localData'];
+	HomeCtrl.$inject = ['$auth', 'localData', 'Page'];
 
-	function HomeCtrl($auth, localData) {
+	function HomeCtrl($auth, localData, Page) {
 		// controllerAs ViewModel
 		var home = this;
+
+		Page.setTitle('Home');
 
 		/**
 		 * Determines if the user is authenticated

@@ -5,11 +5,13 @@
 		.module('myApp')
 		.controller('AdminCtrl', AdminCtrl);
 
-	AdminCtrl.$inject = ['$auth', 'userData', 'User'];
+	AdminCtrl.$inject = ['$auth', 'userData', 'User', 'Page'];
 
-	function AdminCtrl($auth, userData, User) {
+	function AdminCtrl($auth, userData, User, Page) {
 		// controllerAs ViewModel
 		var admin = this;
+
+		Page.setTitle('Admin');
 
 		/**
 		 * Determines if the user is authenticated

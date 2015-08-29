@@ -5,11 +5,13 @@
 		.module('myApp')
 		.controller('LoginCtrl', LoginCtrl);
 
-	LoginCtrl.$inject = ['$auth', 'OAUTH', '$rootScope', '$location', 'localData'];
+	LoginCtrl.$inject = ['$auth', 'OAUTH', '$rootScope', '$location', 'localData', 'Page'];
 
-	function LoginCtrl($auth, OAUTH, $rootScope, $location, localData) {
+	function LoginCtrl($auth, OAUTH, $rootScope, $location, localData, Page) {
 		// controllerAs ViewModel
 		var login = this;
+
+		Page.setTitle('Login');
 
 		/**
 		 * Function to run when local data successful

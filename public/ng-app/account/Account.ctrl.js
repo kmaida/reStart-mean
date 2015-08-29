@@ -5,11 +5,13 @@
 		.module('myApp')
 		.controller('AccountCtrl', AccountCtrl);
 
-	AccountCtrl.$inject = ['$scope', '$auth', 'userData', '$timeout', 'OAUTH', 'User'];
+	AccountCtrl.$inject = ['$scope', '$auth', 'userData', '$timeout', 'OAUTH', 'User', 'Page'];
 
-	function AccountCtrl($scope, $auth, userData, $timeout, OAUTH, User) {
+	function AccountCtrl($scope, $auth, userData, $timeout, OAUTH, User, Page) {
 		// controllerAs ViewModel
 		var account = this;
+
+		Page.setTitle('Account');
 
 		// All available login services
 		account.logins = OAUTH.LOGINS;
