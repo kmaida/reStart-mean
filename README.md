@@ -10,10 +10,6 @@ Boilerplate MEAN stack application with simple authentication via third-party Oa
 * FontAwesome (CDN)
 * Bootstrap 3 (local)
 * Gulp
-
-## Demo
-
-Demo is available at [restart-mean.kmaida.net](http://restart-mean.kmaida.net).
  
 ## Changelog
  
