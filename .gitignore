@@ -2,3 +2,4 @@ node_modules
 .idea
 .sass-cache
 app/config.js
+app.AUTH.constant.js
