@@ -17,8 +17,8 @@
 		// because providers (ie, $location, $window) cannot be injected in config,
 		// dev/prod login URLs must be swapped manually
 
-		$authProvider.loginUrl = APPAUTH.LOGIN_URL.DEV;
-		//$authProvider.loginUrl = APPAUTH.LOGIN_URL.PROD;
+		//$authProvider.loginUrl = APPAUTH.LOGIN_URL.DEV;
+		$authProvider.loginUrl = APPAUTH.LOGIN_URL.PROD;
 
 		$authProvider.facebook({
 			clientId: APPAUTH.CLIENTIDS.FACEBOOK
