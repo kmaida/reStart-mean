@@ -6,19 +6,26 @@
 		.config(authConfig)
 		.run(authRun);
 
-	authConfig.$inject = ['$authProvider'];
+	authConfig.$inject = ['$authProvider', 'APPAUTH'];
+	/**
+	 * AngularJS .config() function
+	 *
+	 * @param $authProvider - Satellizer provider
+	 * @param APPAUTH {object} app auth constants
+	 */
+	function authConfig($authProvider, APPAUTH) {
+		// because providers (ie, $location, $window) cannot be injected in config,
+		// dev/prod login URLs must be swapped manually
 
-	function authConfig($authProvider) {
-		//$authProvider.loginUrl = 'http://restart-mean.kmaida.net/auth/login';
-		$authProvider.loginUrl = 'http://localhost:8081/auth/login';
-		//$authProvider.signupUrl = 'http://restart-mean.kmaida.net/auth/signup';
+		$authProvider.loginUrl = APPAUTH.LOGIN_URL.DEV;
+		//$authProvider.loginUrl = APPAUTH.LOGIN_URL.PROD;
 
 		$authProvider.facebook({
-			clientId: '343789249146966'	// provide your own client ID
+			clientId: APPAUTH.CLIENTIDS.FACEBOOK
 		});
 
 		$authProvider.google({
-			clientId: '479651367330-trvf8efoo415ie0usfhm4i59410vk3j9.apps.googleusercontent.com'	// provide your own client ID
+			clientId: APPAUTH.CLIENTIDS.GOOGLE
 		});
 
 		$authProvider.twitter({
@@ -26,12 +33,18 @@
 		});
 
 		$authProvider.github({
-			clientId: '8096e95c2eba33b81adb'	// provide your own client ID
+			clientId: APPAUTH.CLIENTIDS.GITHUB
 		});
 	}
 
 	authRun.$inject = ['$rootScope', '$location', '$auth'];
-
+	/**
+	 * AngularJS .run() function
+	 *
+	 * @param $rootScope
+	 * @param $location
+	 * @param $auth
+	 */
 	function authRun($rootScope, $location, $auth) {
 		$rootScope.$on('$routeChangeStart', function(event, next, current) {
 			if (next && next.$$route && next.$$route.secure && !$auth.isAuthenticated()) {

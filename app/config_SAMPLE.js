@@ -6,5 +6,5 @@ module.exports = {
 	GITHUB_SECRET: process.env.GITHUB_SECRET || 'GITHUB_SECRET',
 	TWITTER_KEY: process.env.TWITTER_KEY || 'TWITTER_KEY',
 	TWITTER_SECRET: process.env.TWITTER_SECRET || 'TWITTER_SECRET',
-	TWITTER_CALLBACK: process.env.TWITTER_CALLBACK || 'http://localhost:8080'
+	TWITTER_CALLBACK: process.env.TWITTER_CALLBACK || 'http://localhost:8081'
 };
