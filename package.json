@@ -1,6 +1,6 @@
 {
   "name": "restart-mean",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "author": "Kim Maida",
   "description": "A boilerplate MEAN stack application with simple Oauth",
   "main": "server.js",

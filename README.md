@@ -12,7 +12,8 @@ Boilerplate MEAN stack application with simple authentication via third-party Oa
 * Gulp
  
 ## Changelog
- 
+
+* **v0.1.7** - 10/18/15: Upgrade to Angular v1.4.7, update gulp-sass and package.json 
 * **v0.1.6** - 8/23/15: Upgrade to Angular v1.4.4, jQuery v2.1.4, update license
 * **v0.1.5** - 5/29/15: Upgrade to Angular v1.4.0 
 * **v0.1.4** - 4/29/15: Additional enhancements to styles, features and tightening up, prepare for deployment 
