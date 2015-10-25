@@ -47,6 +47,8 @@
 
 				if ($rootScope.authPath) {
 					$location.path($rootScope.authPath);
+				} else {
+					$location.path('/');
 				}
 			}
 
