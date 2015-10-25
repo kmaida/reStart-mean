@@ -47,8 +47,12 @@
 	 */
 	function authRun($rootScope, $location, $auth) {
 		$rootScope.$on('$routeChangeStart', function(event, next, current) {
+			var _path;
+
 			if (next && next.$$route && next.$$route.secure && !$auth.isAuthenticated()) {
-				$rootScope.authPath = $location.path();
+				_path = $location.path();
+
+				$rootScope.authPath = _path.indexOf('login') === -1 ? _path : '/';
 
 				$rootScope.$evalAsync(function() {
 					// send user to login

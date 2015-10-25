@@ -22,7 +22,8 @@
 		 */
 		header.logout = function() {
 			header.adminUser = undefined;
-			$auth.logout('/login');
+			$auth.logout();
+			$location.path('/login');
 		};
 
 		/**
