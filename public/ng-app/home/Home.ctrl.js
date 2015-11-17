@@ -5,9 +5,9 @@
 		.module('myApp')
 		.controller('HomeCtrl', HomeCtrl);
 
-	HomeCtrl.$inject = ['$auth', 'localData', 'Page'];
+	HomeCtrl.$inject = ['$scope', '$auth', 'localData', 'Page'];
 
-	function HomeCtrl($auth, localData, Page) {
+	function HomeCtrl($scope, $auth, localData, Page) {
 		// controllerAs ViewModel
 		var home = this;
 
@@ -36,5 +36,28 @@
 
 		// Simple SCE example
 		home.stringOfHTML = '<strong>Some bold text</strong> bound as HTML with a <a href="#">link</a>!';
+
+		/**
+		 * Enter small mq
+		 * Set home.viewformat
+		 *
+		 * @private
+		 */
+		function _enterMobile() {
+			home.viewformat = 'small';
+		}
+
+		/**
+		 * Exit small mq
+		 * Set home.viewformat
+		 *
+		 * @private
+		 */
+		function _exitMobile() {
+			home.viewformat = 'large';
+		}
+
+		$scope.$on('enter-mobile', _enterMobile);
+		$scope.$on('exit-mobile', _exitMobile);
 	}
 })();

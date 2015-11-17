@@ -2,24 +2,23 @@
 	'use strict';
 
 	angular
-		.module('myApp')
-		.directive('navControl', navControl);
+			.module('myApp')
+			.directive('navControl', navControl);
 
-	navControl.$inject = ['mediaCheck', 'MQ', '$timeout', '$window'];
+	navControl.$inject = ['$window', 'resize'];
 
-	function navControl(mediaCheck, MQ, $timeout, $window) {
+	function navControl($window, resize) {
 
-		navControlLink.$inject = ['$scope', '$element', '$attrs'];
+		navControlLink.$inject = ['$scope'];
 
 		function navControlLink($scope) {
-			// data object
+			// data model
 			$scope.nav = {};
 
-			var _win = angular.element($window);
-			var _body = angular.element('body');
-			var _layoutCanvas = _body.find('.layout-canvas');
+			// private variables
+			var _$body = angular.element('body');
+			var _layoutCanvas = _$body.find('.layout-canvas');
 			var _navOpen;
-			var _debounceResize;
 
 			/**
 			 * Resized window (debounced)
@@ -27,24 +26,19 @@
 			 * @private
 			 */
 			function _resized() {
-				_layoutCanvas.css('min-height', $window.innerHeight + 'px');
+				_layoutCanvas.css({
+					minHeight: $window.innerHeight + 'px'
+				});
 			}
 
 			/**
-			 * Bind resize event to window
-			 * Apply min-height to layout to
-			 * make nav full-height
+			 * Initialize debounced resize
 			 */
-			function _layoutHeight() {
-				$timeout.cancel(_debounceResize);
-				_debounceResize = $timeout(_resized, 200);
-			}
-
-			// run initial layout height calculation
-			_layoutHeight();
-
-			// bind height calculation to window resize
-			_win.bind('resize', _layoutHeight);
+			resize.init({
+				scope: $scope,
+				resizedFn: _resized,
+				debounce: 200
+			});
 
 			/**
 			 * Open mobile navigation
@@ -52,9 +46,9 @@
 			 * @private
 			 */
 			function _openNav() {
-				_body
-				.removeClass('nav-closed')
-				.addClass('nav-open');
+				_$body
+						.removeClass('nav-closed')
+						.addClass('nav-open');
 
 				_navOpen = true;
 			}
@@ -65,12 +59,32 @@
 			 * @private
 			 */
 			function _closeNav() {
-				_body
-				.removeClass('nav-open')
-				.addClass('nav-closed');
+				_$body
+						.removeClass('nav-open')
+						.addClass('nav-closed');
 
 				_navOpen = false;
 			}
+
+			/**
+			 * Toggle nav open/closed
+			 */
+			function toggleNav() {
+				if (!_navOpen) {
+					_openNav();
+				} else {
+					_closeNav();
+				}
+			}
+
+			/**
+			 * When changing location, close the nav if it's open
+			 */
+			$scope.$on('$locationChangeStart', function() {
+				if (_navOpen) {
+					_closeNav();
+				}
+			});
 
 			/**
 			 * Function to execute when entering mobile media query
@@ -78,21 +92,11 @@
 			 *
 			 * @private
 			 */
-			function _enterMobile() {
+			function _enterMobile(mq) {
 				_closeNav();
 
-				$timeout(function () {
-					// toggle mobile navigation open/closed
-					$scope.nav.toggleNav = function () {
-						if (!_navOpen) {
-							_openNav();
-						} else {
-							_closeNav();
-						}
-					};
-				});
-
-				$scope.$on('$locationChangeStart', _closeNav);
+				// bind function to toggle mobile navigation open/closed
+				$scope.nav.toggleNav = toggleNav;
 			}
 
 			/**
@@ -101,28 +105,15 @@
 			 *
 			 * @private
 			 */
-			function _exitMobile() {
-				$timeout(function () {
-					$scope.nav.toggleNav = null;
-				});
+			function _exitMobile(mq) {
+				// unbind function to toggle mobile navigation open/closed
+				$scope.nav.toggleNav = null;
 
-				_body.removeClass('nav-closed nav-open');
+				_$body.removeClass('nav-closed nav-open');
 			}
 
-			/**
-			 * Unbind resize listener on destruction of scope
-			 */
-			$scope.$on('$destroy', function() {
-				win.unbind('resize', _layoutHeight);
-			});
-
-			// Set up functionality to run on enter/exit of media query
-			mediaCheck.init({
-				scope: $scope,
-				mq: MQ.SMALL,
-				enter: _enterMobile,
-				exit: _exitMobile
-			});
+			$scope.$on('enter-mobile', _enterMobile);
+			$scope.$on('exit-mobile', _exitMobile);
 		}
 
 		return {
