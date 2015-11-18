@@ -47,8 +47,8 @@
 			 */
 			function _openNav() {
 				_$body
-						.removeClass('nav-closed')
-						.addClass('nav-open');
+					.removeClass('nav-closed')
+					.addClass('nav-open');
 
 				_navOpen = true;
 			}
@@ -60,8 +60,8 @@
 			 */
 			function _closeNav() {
 				_$body
-						.removeClass('nav-open')
-						.addClass('nav-closed');
+					.removeClass('nav-open')
+					.addClass('nav-closed');
 
 				_navOpen = false;
 			}
