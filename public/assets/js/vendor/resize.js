@@ -2,18 +2,18 @@
 	'use strict';
 
 	angular
-		.module('resize', []);
+	.module('resize', []);
 
 	angular
-		.module('resize')
-		.service('resize', resize);
+	.module('resize')
+	.factory('resize', resize);
 
 	/**
 	 * Usage:
 	 *
 	 * angular.module('myApp', ['resize']);
 	 *
-	 * resize.init({
+	 * var rs = resize.init({
 	 *      scope: $scope,
 	 *      resizedFn: function() { //window was resized! },
 	 *      debounce: 200
@@ -22,8 +22,24 @@
 
 	resize.$inject = ['$window', '$timeout'];
 
+	/**
+	 * Resize factory
+	 *
+	 * @param $window
+	 * @param $timeout
+	 * @returns {object}
+	 */
 	function resize($window, $timeout) {
-		this.init = function(options) {
+
+		/**
+		 * Resize constructor object
+		 * @type {{buildInstance: buildInstance}}
+		 */
+		var Resize = {
+			buildInstance: buildInstance
+		};
+
+		function buildInstance(options) {
 			var _$scope = options['scope'];
 			var _oDebounce = options['debounce'];
 			var _$win = angular.element($window);
@@ -50,6 +66,25 @@
 					_$win.unbind('resize', _resizeHandler);
 				});
 			}
-		};
+		}
+
+		/**
+		 * Return constructor to assign and use
+		 *
+		 * @param options {object}
+		 * @returns {object} Resize
+		 */
+		function init(options) {
+			var RS = Object.create(Resize);
+
+			RS.buildInstance(options);
+
+			return RS;
+		}
+
+		// callable members
+		return {
+			init: init
+		}
 	}
 })();

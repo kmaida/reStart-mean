@@ -8,8 +8,6 @@
 
 	function detectAdblock($timeout, $location) {
 
-		detectAdblockLink.$inject = ['$scope', '$elem', '$attrs'];
-
 		function detectAdblockLink($scope, $elem, $attrs) {
 			// data object
 			$scope.ab = {};

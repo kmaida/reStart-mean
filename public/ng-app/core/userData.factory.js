@@ -9,6 +9,13 @@
 	userData.$inject = ['$http'];
 
 	function userData($http) {
+		// callable members
+		return {
+			getUser: getUser,
+			updateUser: updateUser,
+			getAllUsers: getAllUsers
+		};
+
 		/**
 		 * Promise response function
 		 * Checks typeof data returned and succeeds if JS object, throws error if not
@@ -67,13 +74,6 @@
 			return $http
 				.get('/api/users')
 				.then(_successRes, _errorRes);
-		}
-
-		// callable members
-		return {
-			getUser: getUser,
-			updateUser: updateUser,
-			getAllUsers: getAllUsers
 		}
 	}
 })();

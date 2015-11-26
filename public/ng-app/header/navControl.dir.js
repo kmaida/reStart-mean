@@ -8,9 +8,17 @@
 	navControl.$inject = ['$window', 'resize'];
 
 	function navControl($window, resize) {
+		// return directive
+		return {
+			restrict: 'EA',
+			link: navControlLink
+		};
 
-		navControlLink.$inject = ['$scope'];
-
+		/**
+		 * navControl LINK function
+		 *
+		 * @param $scope
+		 */
 		function navControlLink($scope) {
 			// data model
 			$scope.nav = {};
@@ -19,6 +27,26 @@
 			var _$body = angular.element('body');
 			var _layoutCanvas = _$body.find('.layout-canvas');
 			var _navOpen;
+
+			_init();
+
+			/**
+			 * INIT function executes procedural code
+			 *
+			 * @private
+			 */
+			function _init() {
+				// initialize debounced resize
+				var _rs = resize.init({
+					scope: $scope,
+					resizedFn: _resized,
+					debounce: 100
+				});
+
+				$scope.$on('$locationChangeStart', _$locationChangeStart);
+				$scope.$on('enter-mobile', _enterMobile);
+				$scope.$on('exit-mobile', _exitMobile);
+			}
 
 			/**
 			 * Resized window (debounced)
@@ -30,15 +58,6 @@
 					minHeight: $window.innerHeight + 'px'
 				});
 			}
-
-			/**
-			 * Initialize debounced resize
-			 */
-			resize.init({
-				scope: $scope,
-				resizedFn: _resized,
-				debounce: 200
-			});
 
 			/**
 			 * Open mobile navigation
@@ -80,11 +99,11 @@
 			/**
 			 * When changing location, close the nav if it's open
 			 */
-			$scope.$on('$locationChangeStart', function() {
+			function _$locationChangeStart() {
 				if (_navOpen) {
 					_closeNav();
 				}
-			});
+			}
 
 			/**
 			 * Function to execute when entering mobile media query
@@ -111,15 +130,7 @@
 
 				_$body.removeClass('nav-closed nav-open');
 			}
-
-			$scope.$on('enter-mobile', _enterMobile);
-			$scope.$on('exit-mobile', _exitMobile);
 		}
-
-		return {
-			restrict: 'EA',
-			link: navControlLink
-		};
 	}
 
 })();
