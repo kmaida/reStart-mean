@@ -25,7 +25,6 @@
 		 * @private
 		 */
 		function _init() {
-			// set page title
 			Page.setTitle('Home');
 
 			// get local data
