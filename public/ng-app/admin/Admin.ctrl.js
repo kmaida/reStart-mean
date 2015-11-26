@@ -11,16 +11,31 @@
 		// controllerAs ViewModel
 		var admin = this;
 
-		Page.setTitle('Admin');
+		// bindable members
+		admin.isAuthenticated = _isAuthenticated;
+
+		_init();
+
+		/**
+		 * INIT function executes procedural code
+		 *
+		 * @private
+		 */
+		function _init() {
+			Page.setTitle('Admin');
+
+			userData.getAllUsers().then(_getAllUsersSuccess, _getAllUsersError);
+		}
 
 		/**
 		 * Determines if the user is authenticated
 		 *
 		 * @returns {boolean}
+		 * @private
 		 */
-		admin.isAuthenticated = function() {
+		function _isAuthenticated() {
 			return $auth.isAuthenticated();
-		};
+		}
 
 		/**
 		 * Function for successful API call getting user list
@@ -50,7 +65,5 @@
 		function _getAllUsersError(error) {
 			admin.showAdmin = false;
 		}
-
-		userData.getAllUsers().then(_getAllUsersSuccess, _getAllUsersError);
 	}
 })();
