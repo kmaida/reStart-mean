@@ -11,16 +11,40 @@
 		// controllerAs ViewModel
 		var home = this;
 
-		Page.setTitle('Home');
+		// bindable members
+		home.stringOfHTML = '<strong>Some bold text</strong> bound as HTML with a <a href="#">link</a>!';
+		home.isAuthenticated = _isAuthenticated;
+		home.viewformat = null;
+		home.localData = null;
+
+		_init();
+
+		/**
+		 * INIT function executes procedural code
+		 *
+		 * @private
+		 */
+		function _init() {
+			// set page title
+			Page.setTitle('Home');
+
+			// get local data
+			localData.getJSON().then(_localDataSuccess);
+
+			// setup mediaquery functions defining home.viewformat
+			$scope.$on('enter-mobile', _enterMobile);
+			$scope.$on('exit-mobile', _exitMobile);
+		}
 
 		/**
 		 * Determines if the user is authenticated
 		 *
 		 * @returns {boolean}
+		 * @private
 		 */
-		home.isAuthenticated = function() {
+		function _isAuthenticated() {
 			return $auth.isAuthenticated();
-		};
+		}
 
 		/**
 		 * Get local data from static JSON
@@ -31,11 +55,6 @@
 		function _localDataSuccess(data) {
 			home.localData = data;
 		}
-
-		localData.getJSON().then(_localDataSuccess);
-
-		// Simple SCE example
-		home.stringOfHTML = '<strong>Some bold text</strong> bound as HTML with a <a href="#">link</a>!';
 
 		/**
 		 * Enter small mq
@@ -56,8 +75,5 @@
 		function _exitMobile() {
 			home.viewformat = 'large';
 		}
-
-		$scope.$on('enter-mobile', _enterMobile);
-		$scope.$on('exit-mobile', _exitMobile);
 	}
 })();
