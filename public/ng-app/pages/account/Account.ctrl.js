@@ -12,6 +12,7 @@
 		var account = this;
 
 		// bindable members
+		account.title = 'My Account';
 		account.logins = OAUTH.LOGINS;  // All available login services
 		account.isAuthenticated = _isAuthenticated;
 		account.getProfile = _getProfile;
@@ -27,7 +28,7 @@
 		 * @private
 		 */
 		function _init() {
-			Page.setTitle('Account');
+			Page.setTitle(account.title);
 
 			_btnSaveReset();
 

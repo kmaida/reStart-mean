@@ -12,6 +12,7 @@
 		var admin = this;
 
 		// bindable members
+		admin.title = 'Admin';
 		admin.isAuthenticated = _isAuthenticated;
 
 		_init();
@@ -22,7 +23,7 @@
 		 * @private
 		 */
 		function _init() {
-			Page.setTitle('Admin');
+			Page.setTitle(admin.title);
 
 			userData.getAllUsers().then(_getAllUsersSuccess, _getAllUsersError);
 		}
