@@ -36,8 +36,17 @@
 		 * @private
 		 */
 		function _init() {
+			_activate();
+		}
+
+		/**
+		 * INIT function executes procedural code
+		 *
+		 * @private
+		 */
+		function _activate() {
 			// API request to get the user, passing success callback function that sets the user's info
-			userData.getUser().then(_userSuccess);
+			return userData.getUser().then(_userSuccess);
 		}
 
 		/**
@@ -58,6 +67,7 @@
 		 */
 		function _userSuccess(data) {
 			u.user = data;
+			return u.user;
 		}
 	}
 })();
