@@ -44,7 +44,7 @@
 		 */
 		function getJSON() {
 			return $http
-				.get('/ng-app/data/data.json')
+				.get('/data/data.json')
 				.then(_successRes, _errorRes);
 		}
 
