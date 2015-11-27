@@ -8,6 +8,6 @@
 	};
 
 	angular
-		.module('myApp')
+		.module('reStart-mean')
 		.constant('MQ', MQ);
 })();

@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular
-		.module('myApp')
+		.module('reStart-mean')
 		.directive('user', user);
 
 	function user() {

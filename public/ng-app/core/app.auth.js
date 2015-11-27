@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('myApp')
+		.module('reStart-mean')
 		.config(authConfig)
 		.run(authRun);
 

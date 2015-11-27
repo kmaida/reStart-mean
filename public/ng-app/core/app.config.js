@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular
-		.module('myApp')
+		.module('reStart-mean')
 		.config(appConfig);
 
 	appConfig.$inject = ['$routeProvider', '$locationProvider'];

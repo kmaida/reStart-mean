@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('myApp')
+		.module('reStart-mean')
 		.controller('AdminCtrl', AdminCtrl);
 
 	AdminCtrl.$inject = ['$auth', 'userData', 'User', 'Page'];

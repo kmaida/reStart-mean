@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('myApp')
+		.module('reStart-mean')
 		.controller('HomeCtrl', HomeCtrl);
 
 	HomeCtrl.$inject = ['$scope', '$auth', 'localData', 'Page'];

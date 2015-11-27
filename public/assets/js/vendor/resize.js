@@ -2,11 +2,11 @@
 	'use strict';
 
 	angular
-	.module('resize', []);
+		.module('resize', []);
 
 	angular
-	.module('resize')
-	.factory('resize', resize);
+		.module('resize')
+		.factory('resize', resize);
 
 	/**
 	 * Usage:

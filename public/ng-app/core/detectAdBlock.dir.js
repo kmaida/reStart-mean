@@ -1,7 +1,7 @@
 (function() {
 
 	angular
-		.module('myApp')
+		.module('reStart-mean')
 		.directive('detectAdblock', detectAdblock);
 
 	detectAdblock.$inject = ['$timeout', '$location'];

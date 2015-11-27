@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular
-		.module('myApp')
+		.module('reStart-mean')
 		.factory('localData', localData);
 
 	localData.$inject = ['$http'];

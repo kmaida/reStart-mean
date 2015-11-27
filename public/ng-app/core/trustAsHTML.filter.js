@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('myApp')
+		.module('reStart-mean')
 		.filter('trustAsHTML', trustAsHTML);
 
 	trustAsHTML.$inject = ['$sce'];
