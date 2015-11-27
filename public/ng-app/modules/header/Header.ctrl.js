@@ -25,14 +25,26 @@
 		 * @private
 		 */
 		function _init() {
-			// get local data
-			localData.getJSON().then(_localDataSuccess);
-
 			// check if user is an admin
 			_checkUserAdmin();
 
+			_activate();
+
 			// check if user is an admin on location change
 			$scope.$on('$locationChangeSuccess', _checkUserAdmin);
+		}
+
+		/**
+		 * Controller activate
+		 * Get JSON data
+		 *
+		 * @returns {*}
+		 * @private
+		 */
+		function _activate() {
+			$scope.$emit('loading-on');
+
+			return localData.getJSON().then(_localDataSuccess);
 		}
 
 		/**
@@ -43,6 +55,10 @@
 		 */
 		function _localDataSuccess(data) {
 			header.localData = data;
+
+			$scope.$emit('loading-off');
+
+			return header.localData;
 		}
 
 		/**
