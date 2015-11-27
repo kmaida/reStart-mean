@@ -35,8 +35,18 @@
 			// watch for display name updates
 			$scope.$watch('account.user.displayName', _$watchDisplayName);
 
-			// get profile
-			account.getProfile();
+			_activate();
+		}
+
+		/**
+		 * Controller activate
+		 * Get JSON data
+		 *
+		 * @returns {*}
+		 * @private
+		 */
+		function _activate() {
+			return _getProfile();
 		}
 
 		/**
@@ -52,7 +62,8 @@
 		 * Get user's profile information
 		 */
 		function _getProfile() {
-			userData.getUser().then(_getUserSuccess, _getUserError);
+			$scope.$emit('loading-on');
+			return userData.getUser().then(_getUserSuccess, _getUserError);
 		}
 
 		/**
@@ -67,6 +78,8 @@
 			account.administrator = account.user.isAdmin;
 			account.linkedAccounts = User.getLinkedAccounts(account.user, 'account');
 			account.showAccount = true;
+
+			$scope.$emit('loading-off');
 		}
 
 		/**
@@ -78,6 +91,8 @@
 		 */
 		function _getUserError(error) {
 			account.errorGettingUser = true;
+
+			$scope.$emit('loading-off');
 		}
 
 		/**
@@ -164,9 +179,7 @@
 		 */
 		function _unlink(provider) {
 			$auth.unlink(provider)
-				.then(function() {
-					account.getProfile();
-				})
+				.then(account.getProfile)
 				.catch(function(response) {
 					alert(response.data ? response.data.message : 'Could not unlink ' + provider + ' account');
 				});

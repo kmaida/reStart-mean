@@ -27,8 +27,7 @@
 		function _init() {
 			Page.setTitle('Home');
 
-			// get local data
-			localData.getJSON().then(_localDataSuccess);
+			_activate();
 
 			// setup mediaquery functions defining home.viewformat
 			$scope.$on('enter-mobile', _enterMobile);
@@ -36,13 +35,17 @@
 		}
 
 		/**
-		 * Determines if the user is authenticated
+		 * Controller activate
+		 * Get JSON data
 		 *
-		 * @returns {boolean}
+		 * @returns {*}
 		 * @private
 		 */
-		function _isAuthenticated() {
-			return $auth.isAuthenticated();
+		function _activate() {
+			$scope.$emit('loading-on');
+
+			// get local data and return promise
+			return localData.getJSON().then(_localDataSuccess);
 		}
 
 		/**
@@ -53,6 +56,21 @@
 		 */
 		function _localDataSuccess(data) {
 			home.localData = data;
+
+			// stop loading
+			$scope.$emit('loading-off');
+
+			return home.localData;
+		}
+
+		/**
+		 * Determines if the user is authenticated
+		 *
+		 * @returns {boolean}
+		 * @private
+		 */
+		function _isAuthenticated() {
+			return $auth.isAuthenticated();
 		}
 
 		/**
