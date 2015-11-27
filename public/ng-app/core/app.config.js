@@ -34,7 +34,9 @@
 				secure: true
 			})
 			.otherwise({
-				redirectTo: '/'
+				templateUrl: 'ng-app/pages/404/Error404.view.html',
+				controller: 'Error404Ctrl',
+				controllerAs: 'e404'
 			});
 
 		$locationProvider
