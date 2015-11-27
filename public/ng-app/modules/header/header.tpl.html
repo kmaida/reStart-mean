@@ -2,7 +2,7 @@
 	<div class="header-mobile-page">
 		<a class="toggle-offcanvas" ng-click="header.isAuthenticated() ? nav.toggleNav() : null" ng-class="{'disabled': !header.isAuthenticated()}">
 			<span></span></a>
-		<h1 class="header-mobile-page-siteTitle">{{::header.localData.title}}</h1>
+		<h1 class="header-mobile-page-siteTitle" ng-bind="::header.localData.title"></h1>
 	</div>
 
 	<!-- only show navigation if user is logged in -->
