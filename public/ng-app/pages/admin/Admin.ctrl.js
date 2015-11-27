@@ -5,9 +5,9 @@
 		.module('reStart-mean')
 		.controller('AdminCtrl', AdminCtrl);
 
-	AdminCtrl.$inject = ['$auth', 'userData', 'User', 'Page'];
+	AdminCtrl.$inject = ['$scope', '$auth', 'userData', 'User', 'Page'];
 
-	function AdminCtrl($auth, userData, User, Page) {
+	function AdminCtrl($scope, $auth, userData, User, Page) {
 		// controllerAs ViewModel
 		var admin = this;
 
@@ -25,7 +25,20 @@
 		function _init() {
 			Page.setTitle(admin.title);
 
-			userData.getAllUsers().then(_getAllUsersSuccess, _getAllUsersError);
+			_activate();
+		}
+
+		/**
+		 * Controller activate
+		 * Get JSON data
+		 *
+		 * @returns {*}
+		 * @private
+		 */
+		function _activate() {
+			$scope.$emit('loading-on');
+
+			return userData.getAllUsers().then(_getAllUsersSuccess, _getAllUsersError);
 		}
 
 		/**
@@ -54,6 +67,8 @@
 			});
 
 			admin.showAdmin = true;
+
+			$scope.$emit('loading-off');
 		}
 
 		/**
@@ -65,6 +80,8 @@
 		 */
 		function _getAllUsersError(error) {
 			admin.showAdmin = false;
+
+			$scope.$emit('loading-off');
 		}
 	}
 })();
