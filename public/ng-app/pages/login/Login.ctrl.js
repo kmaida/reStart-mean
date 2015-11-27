@@ -5,9 +5,9 @@
 		.module('reStart-mean')
 		.controller('LoginCtrl', LoginCtrl);
 
-	LoginCtrl.$inject = ['$auth', 'OAUTH', '$rootScope', '$location', 'localData', 'Page'];
+	LoginCtrl.$inject = ['$scope', '$auth', 'OAUTH', '$rootScope', '$location', 'localData', 'Page'];
 
-	function LoginCtrl($auth, OAUTH, $rootScope, $location, localData, Page) {
+	function LoginCtrl($scope, $auth, OAUTH, $rootScope, $location, localData, Page) {
 		// controllerAs ViewModel
 		var login = this;
 
@@ -26,8 +26,21 @@
 		function _init() {
 			Page.setTitle('Login');
 
+			_activate();
+		}
+
+		/**
+		 * Controller activate
+		 * Get JSON data
+		 *
+		 * @returns {*}
+		 * @private
+		 */
+		function _activate() {
+			$scope.$emit('loading-on');
+
 			// get local data
-			localData.getJSON().then(_localDataSuccess);
+			return localData.getJSON().then(_localDataSuccess);
 		}
 
 		/**
@@ -38,6 +51,10 @@
 		 */
 		function _localDataSuccess(data) {
 			login.localData = data;
+
+			$scope.$emit('loading-off');
+
+			return login.localData;
 		}
 
 		/**
