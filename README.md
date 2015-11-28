@@ -17,6 +17,7 @@ Demo can be found at [http://restart-mean.kmaida.net](http://restart-mean.kmaida
  
 ## Changelog
 
+* **v0.2.0** - 11/27/15: Refactoring and major updates to adhere to styleguide and updated reStart-angular
 * **v0.1.7** - 10/18/15: Upgrade to Angular v1.4.7, update gulp-sass and package.json 
 * **v0.1.6** - 8/23/15: Upgrade to Angular v1.4.4, jQuery v2.1.4, update license
 * **v0.1.5** - 5/29/15: Upgrade to Angular v1.4.0 
