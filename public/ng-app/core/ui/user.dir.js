@@ -13,20 +13,20 @@
 			controller: userCtrl,
 			controllerAs: 'u',
 			bindToController: true,
-			template: '<div ng-if="u.isAuthenticated() && !!u.user" class="user clearfix"><img ng-if="!!u.user.picture" ng-src="{{u.user.picture}}" class="user-picture" /><span class="user-displayName">{{u.user.displayName}}</span></div>'
+			template: '<div ng-if="u.isAuthenticated() && !!u.user" class="user clearfix"><img ng-if="!!u.user.picture" ng-src="{{u.user.picture}}" class="user-picture" /><span class="user-displayName" ng-bind="::u.user.displayName"></span></div>'
 		};
 	}
 
-	userCtrl.$inject = ['UserData', '$auth'];
+	userCtrl.$inject = ['UserData', 'Utils'];
 	/**
 	 * User directive controller
 	 */
-	function userCtrl(UserData, $auth) {
+	function userCtrl(UserData, Utils) {
 		// controllerAs ViewModel
 		var u = this;
 
 		// bindable members
-		u.isAuthenticated = _isAuthenticated;
+		u.isAuthenticated = Utils.isAuthenticated;
 
 		_init();
 
@@ -47,16 +47,6 @@
 		function _activate() {
 			// API request to get the user, passing success callback function that sets the user's info
 			return UserData.getUser().then(_userSuccess);
-		}
-
-		/**
-		 * Check if the current user is authenticated
-		 *
-		 * @returns {boolean}
-		 * @private
-		 */
-		function _isAuthenticated() {
-			return $auth.isAuthenticated();
 		}
 
 		/**
