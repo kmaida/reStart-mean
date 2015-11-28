@@ -5,15 +5,15 @@
 		.module('reStart-mean')
 		.controller('HomeCtrl', HomeCtrl);
 
-	HomeCtrl.$inject = ['$scope', '$auth', 'localData', 'Page'];
+	HomeCtrl.$inject = ['$scope', 'Utils', 'localData', 'Page'];
 
-	function HomeCtrl($scope, $auth, localData, Page) {
+	function HomeCtrl($scope, Utils, localData, Page) {
 		// controllerAs ViewModel
 		var home = this;
 
 		// bindable members
 		home.stringOfHTML = '<strong>Some bold text</strong> bound as HTML with a <a href="#">link</a>!';
-		home.isAuthenticated = _isAuthenticated;
+		home.isAuthenticated = Utils.isAuthenticated;
 		home.viewformat = null;
 		home.localData = null;
 
@@ -61,16 +61,6 @@
 			$scope.$emit('loading-off');
 
 			return home.localData;
-		}
-
-		/**
-		 * Determines if the user is authenticated
-		 *
-		 * @returns {boolean}
-		 * @private
-		 */
-		function _isAuthenticated() {
-			return $auth.isAuthenticated();
 		}
 
 		/**

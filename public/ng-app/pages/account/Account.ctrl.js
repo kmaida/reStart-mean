@@ -5,16 +5,16 @@
 		.module('reStart-mean')
 		.controller('AccountCtrl', AccountCtrl);
 
-	AccountCtrl.$inject = ['$scope', '$auth', 'userData', '$timeout', 'OAUTH', 'User', 'Page'];
+	AccountCtrl.$inject = ['$scope', '$auth', 'Utils', 'userData', '$timeout', 'OAUTH', 'User', 'Page'];
 
-	function AccountCtrl($scope, $auth, userData, $timeout, OAUTH, User, Page) {
+	function AccountCtrl($scope, $auth, Utils, userData, $timeout, OAUTH, User, Page) {
 		// controllerAs ViewModel
 		var account = this;
 
 		// bindable members
 		account.title = 'My Account';
 		account.logins = OAUTH.LOGINS;  // All available login services
-		account.isAuthenticated = _isAuthenticated;
+		account.isAuthenticated = Utils.isAuthenticated;
 		account.getProfile = _getProfile;
 		account.updateProfile = _updateProfile;
 		account.link = _link;
@@ -47,15 +47,6 @@
 		 */
 		function _activate() {
 			return _getProfile();
-		}
-
-		/**
-		 * Is the user authenticated?
-		 *
-		 * @returns {boolean}
-		 */
-		function _isAuthenticated() {
-			return $auth.isAuthenticated();
 		}
 
 		/**

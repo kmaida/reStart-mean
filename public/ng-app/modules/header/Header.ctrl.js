@@ -5,15 +5,15 @@
 		.module('reStart-mean')
 		.controller('HeaderCtrl', headerCtrl);
 
-	headerCtrl.$inject = ['$scope', '$location', 'localData', '$auth', 'userData'];
+	headerCtrl.$inject = ['$scope', '$location', 'localData', '$auth', 'userData', 'Utils'];
 
-	function headerCtrl($scope, $location, localData, $auth, userData) {
+	function headerCtrl($scope, $location, localData, $auth, userData, Utils) {
 		// controllerAs ViewModel
 		var header = this;
 
 		// bindable members
 		header.logout = _logout;
-		header.isAuthenticated = _isAuthenticated;
+		header.isAuthenticated = Utils.isAuthenticated;
 		header.indexIsActive = _indexIsActive;
 		header.navIsActive = _navIsActive;
 
@@ -82,21 +82,21 @@
 		function _checkUserAdmin() {
 			// if user is authenticated and not defined yet, check if they're an admin
 			if ($auth.isAuthenticated() && header.adminUser === undefined) {
-				userData.getUser()
-					.then(function(data) {
-						header.adminUser = data.isAdmin;
-					});
+				return userData.getUser().then(_getUserSuccess);
 			}
 		}
 
 		/**
-		 * Is the user authenticated?
+		 * Get user success
 		 *
-		 * @returns {boolean}
+		 * @param data
+		 * @returns {undefined|*}
 		 * @private
 		 */
-		function _isAuthenticated() {
-			return $auth.isAuthenticated();
+		function _getUserSuccess(data) {
+			header.adminUser = data.isAdmin;
+
+			return header.adminUser;
 		}
 
 		/**

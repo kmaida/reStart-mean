@@ -5,15 +5,15 @@
 		.module('reStart-mean')
 		.controller('AdminCtrl', AdminCtrl);
 
-	AdminCtrl.$inject = ['$scope', '$auth', 'userData', 'User', 'Page'];
+	AdminCtrl.$inject = ['$scope', 'Utils', 'userData', 'User', 'Page'];
 
-	function AdminCtrl($scope, $auth, userData, User, Page) {
+	function AdminCtrl($scope, Utils, userData, User, Page) {
 		// controllerAs ViewModel
 		var admin = this;
 
 		// bindable members
 		admin.title = 'Admin';
-		admin.isAuthenticated = _isAuthenticated;
+		admin.isAuthenticated = Utils.isAuthenticated;
 
 		_init();
 
@@ -39,16 +39,6 @@
 			$scope.$emit('loading-on');
 
 			return userData.getAllUsers().then(_getAllUsersSuccess, _getAllUsersError);
-		}
-
-		/**
-		 * Determines if the user is authenticated
-		 *
-		 * @returns {boolean}
-		 * @private
-		 */
-		function _isAuthenticated() {
-			return $auth.isAuthenticated();
 		}
 
 		/**
