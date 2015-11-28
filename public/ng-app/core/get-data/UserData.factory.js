@@ -6,42 +6,15 @@
 		.module('reStart-mean')
 		.factory('UserData', UserData);
 
-	UserData.$inject = ['$http'];
+	UserData.$inject = ['$http', 'Res'];
 
-	function UserData($http) {
+	function UserData($http, Res) {
 		// callable members
 		return {
 			getUser: getUser,
 			updateUser: updateUser,
 			getAllUsers: getAllUsers
 		};
-
-		/**
-		 * Promise response function
-		 * Checks typeof data returned and succeeds if JS object, throws error if not
-		 *
-		 * @param response {*} data from $http
-		 * @returns {*} object, array
-		 * @private
-		 */
-		function _successRes(response) {
-			if (typeof response.data === 'object') {
-				return response.data;
-			} else {
-				throw new Error('retrieved data is not typeof object.');
-			}
-		}
-
-		/**
-		 * Promise response function - error
-		 * Throws an error with error data
-		 *
-		 * @param error {object}
-		 * @private
-		 */
-		function _errorRes(error) {
-			throw new Error('Error retrieving data', error);
-		}
 
 		/**
 		 * Get current user's data
@@ -51,7 +24,7 @@
 		function getUser() {
 			return $http
 				.get('/api/me')
-				.then(_successRes, _errorRes);
+				.then(Res.success, Res.error);
 		}
 
 		/**
@@ -73,7 +46,7 @@
 		function getAllUsers() {
 			return $http
 				.get('/api/users')
-				.then(_successRes, _errorRes);
+				.then(Res.success, Res.error);
 		}
 	}
 })();
