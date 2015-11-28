@@ -2,8 +2,8 @@
 	'use strict';
 
 	angular
-	.module('reStart-mean')
-	.factory('Utils', Utils);
+		.module('reStart-mean')
+		.factory('Utils', Utils);
 
 	Utils.$inject = ['$auth'];
 
