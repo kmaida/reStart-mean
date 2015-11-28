@@ -4,11 +4,11 @@
 
 	angular
 		.module('reStart-mean')
-		.factory('localData', localData);
+		.factory('LocalData', LocalData);
 
-	localData.$inject = ['$http'];
+	LocalData.$inject = ['$http'];
 
-	function localData($http) {
+	function LocalData($http) {
 		/**
 		 * Promise response function
 		 * Checks typeof data returned and succeeds if JS object, throws error if not

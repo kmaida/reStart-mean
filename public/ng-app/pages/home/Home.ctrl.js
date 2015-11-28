@@ -5,9 +5,9 @@
 		.module('reStart-mean')
 		.controller('HomeCtrl', HomeCtrl);
 
-	HomeCtrl.$inject = ['$scope', 'Utils', 'localData', 'Page'];
+	HomeCtrl.$inject = ['$scope', 'Utils', 'LocalData', 'Page'];
 
-	function HomeCtrl($scope, Utils, localData, Page) {
+	function HomeCtrl($scope, Utils, LocalData, Page) {
 		// controllerAs ViewModel
 		var home = this;
 
@@ -45,7 +45,7 @@
 			$scope.$emit('loading-on');
 
 			// get local data and return promise
-			return localData.getJSON().then(_localDataSuccess);
+			return LocalData.getJSON().then(_localDataSuccess);
 		}
 
 		/**
