@@ -165,11 +165,19 @@
 		 * @param {string} provider
 		 */
 		function _link(provider) {
-			$auth.link(provider)
+			return $auth.link(provider)
 				.then(account.getProfile)
-				.catch(function(response) {
-					alert(response.data.message);
-				});
+				.catch(_linkCatch);
+		}
+
+		/**
+		 * Link promise catch
+		 *
+		 * @param response
+		 * @private
+		 */
+		function _linkCatch(response) {
+			alert(response.data.message);
 		}
 
 		/**
@@ -178,11 +186,19 @@
 		 * @param {string} provider
 		 */
 		function _unlink(provider) {
-			$auth.unlink(provider)
+			return $auth.unlink(provider)
 				.then(account.getProfile)
-				.catch(function(response) {
-					alert(response.data ? response.data.message : 'Could not unlink ' + provider + ' account');
-				});
+				.catch(_unlinkCatch);
+		}
+
+		/**
+		 * Unlink promise catch
+		 *
+		 * @param response
+		 * @private
+		 */
+		function _unlinkCatch(response) {
+			alert(response.data ? response.data.message : 'Could not unlink ' + provider + ' account');
 		}
 	}
 })();
