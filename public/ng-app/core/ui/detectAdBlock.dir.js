@@ -12,9 +12,9 @@
 			restrict: 'EA',
 			link: detectAdblockLink,
 			template:   '<div class="ad-test fa-facebook fa-twitter" style="height:1px;"></div>' +
-			'<div ng-if="ab.blocked" class="ab-message alert alert-danger">' +
-			'<i class="fa fa-ban"></i> <strong>AdBlock</strong> is prohibiting important functionality! Please disable ad blocking on <strong>{{ab.host}}</strong>. This site is ad-free.' +
-			'</div>'
+						'<div ng-if="ab.blocked" class="ab-message alert alert-danger">' +
+						'<i class="fa fa-ban"></i> <strong>AdBlock</strong> is prohibiting important functionality! Please disable ad blocking on <strong>{{ab.host}}</strong>. This site is ad-free.' +
+						'</div>'
 		};
 
 		/**
