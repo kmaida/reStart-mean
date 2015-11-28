@@ -4,7 +4,8 @@
 
 	angular
 		.module('reStart-mean')
-		.config(appConfig);
+		.config(appConfig)
+		.run(appRun);
 
 	appConfig.$inject = ['$routeProvider', '$locationProvider'];
 
@@ -44,5 +45,30 @@
 				enabled: true
 			})
 			.hashPrefix('!');
+	}
+
+	appRun.$inject = ['$rootScope', '$location', '$auth'];
+	/**
+	 * AngularJS .run() function
+	 *
+	 * @param $rootScope
+	 * @param $location
+	 * @param $auth
+	 */
+	function appRun($rootScope, $location, $auth) {
+		$rootScope.$on('$routeChangeStart', function(event, next, current) {
+			var _path;
+
+			if (next && next.$$route && next.$$route.secure && !$auth.isAuthenticated()) {
+				_path = $location.path();
+
+				$rootScope.authPath = _path.indexOf('login') === -1 ? _path : '/';
+
+				$rootScope.$evalAsync(function() {
+					// send user to login
+					$location.path('/login');
+				});
+			}
+		});
 	}
 })();

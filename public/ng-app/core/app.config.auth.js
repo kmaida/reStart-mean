@@ -3,8 +3,7 @@
 
 	angular
 		.module('reStart-mean')
-		.config(authConfig)
-		.run(authRun);
+		.config(authConfig);
 
 	authConfig.$inject = ['$authProvider', 'APPAUTH'];
 	/**
@@ -34,31 +33,6 @@
 
 		$authProvider.github({
 			clientId: APPAUTH.CLIENTIDS.GITHUB
-		});
-	}
-
-	authRun.$inject = ['$rootScope', '$location', '$auth'];
-	/**
-	 * AngularJS .run() function
-	 *
-	 * @param $rootScope
-	 * @param $location
-	 * @param $auth
-	 */
-	function authRun($rootScope, $location, $auth) {
-		$rootScope.$on('$routeChangeStart', function(event, next, current) {
-			var _path;
-
-			if (next && next.$$route && next.$$route.secure && !$auth.isAuthenticated()) {
-				_path = $location.path();
-
-				$rootScope.authPath = _path.indexOf('login') === -1 ? _path : '/';
-
-				$rootScope.$evalAsync(function() {
-					// send user to login
-					$location.path('/login');
-				});
-			}
 		});
 	}
 
