@@ -4,11 +4,11 @@
 
 	angular
 		.module('reStart-mean')
-		.factory('userData', userData);
+		.factory('UserData', UserData);
 
-	userData.$inject = ['$http'];
+	UserData.$inject = ['$http'];
 
-	function userData($http) {
+	function UserData($http) {
 		// callable members
 		return {
 			getUser: getUser,

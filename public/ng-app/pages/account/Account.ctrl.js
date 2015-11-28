@@ -5,9 +5,9 @@
 		.module('reStart-mean')
 		.controller('AccountCtrl', AccountCtrl);
 
-	AccountCtrl.$inject = ['$scope', '$auth', 'Utils', 'userData', '$timeout', 'OAUTH', 'User', 'Page'];
+	AccountCtrl.$inject = ['$scope', '$auth', 'Utils', 'UserData', '$timeout', 'OAUTH', 'User', 'Page'];
 
-	function AccountCtrl($scope, $auth, Utils, userData, $timeout, OAUTH, User, Page) {
+	function AccountCtrl($scope, $auth, Utils, UserData, $timeout, OAUTH, User, Page) {
 		// controllerAs ViewModel
 		var account = this;
 
@@ -54,7 +54,7 @@
 		 */
 		function _getProfile() {
 			$scope.$emit('loading-on');
-			return userData.getUser().then(_getUserSuccess, _getUserError);
+			return UserData.getUser().then(_getUserSuccess, _getUserError);
 		}
 
 		/**
@@ -124,7 +124,7 @@
 				account.btnSaveText = 'Saving...';
 
 				// Update the user, passing profile data and assigning success and error callbacks
-				userData.updateUser(profileData).then(_updateSuccess, _updateError);
+				UserData.updateUser(profileData).then(_updateSuccess, _updateError);
 			}
 		}
 

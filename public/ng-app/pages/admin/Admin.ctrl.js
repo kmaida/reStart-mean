@@ -5,9 +5,9 @@
 		.module('reStart-mean')
 		.controller('AdminCtrl', AdminCtrl);
 
-	AdminCtrl.$inject = ['$scope', 'Utils', 'userData', 'User', 'Page'];
+	AdminCtrl.$inject = ['$scope', 'Utils', 'UserData', 'User', 'Page'];
 
-	function AdminCtrl($scope, Utils, userData, User, Page) {
+	function AdminCtrl($scope, Utils, UserData, User, Page) {
 		// controllerAs ViewModel
 		var admin = this;
 
@@ -38,7 +38,7 @@
 		function _activate() {
 			$scope.$emit('loading-on');
 
-			return userData.getAllUsers().then(_getAllUsersSuccess, _getAllUsersError);
+			return UserData.getAllUsers().then(_getAllUsersSuccess, _getAllUsersError);
 		}
 
 		/**

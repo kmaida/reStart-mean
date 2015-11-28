@@ -5,9 +5,9 @@
 		.module('reStart-mean')
 		.controller('HeaderCtrl', headerCtrl);
 
-	headerCtrl.$inject = ['$scope', '$location', 'LocalData', '$auth', 'userData', 'Utils'];
+	headerCtrl.$inject = ['$scope', '$location', 'LocalData', '$auth', 'UserData', 'Utils'];
 
-	function headerCtrl($scope, $location, LocalData, $auth, userData, Utils) {
+	function headerCtrl($scope, $location, LocalData, $auth, UserData, Utils) {
 		// controllerAs ViewModel
 		var header = this;
 
@@ -82,7 +82,7 @@
 		function _checkUserAdmin() {
 			// if user is authenticated and not defined yet, check if they're an admin
 			if ($auth.isAuthenticated() && header.adminUser === undefined) {
-				userData.getUser()
+				UserData.getUser()
 					.then(function(data) {
 						header.adminUser = data.isAdmin;
 					});

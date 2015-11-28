@@ -17,11 +17,11 @@
 		};
 	}
 
-	userCtrl.$inject = ['userData', '$auth'];
+	userCtrl.$inject = ['UserData', '$auth'];
 	/**
 	 * User directive controller
 	 */
-	function userCtrl(userData, $auth) {
+	function userCtrl(UserData, $auth) {
 		// controllerAs ViewModel
 		var u = this;
 
@@ -46,7 +46,7 @@
 		 */
 		function _activate() {
 			// API request to get the user, passing success callback function that sets the user's info
-			return userData.getUser().then(_userSuccess);
+			return UserData.getUser().then(_userSuccess);
 		}
 
 		/**
