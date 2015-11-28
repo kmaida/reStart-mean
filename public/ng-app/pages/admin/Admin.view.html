@@ -1,7 +1,7 @@
-<article id="content-wrapper" class="content-wrapper admin-wrapper" view-switch>
+<article id="content-wrapper" class="content-wrapper admin-wrapper">
 	<section id="content-main" class="content-main admin-main clearfix" ng-cloak>
 
-		<h1 class="content-heading">Admin</h1>
+		<h1 class="content-heading" ng-bind="::admin.title"></h1>
 
 		<div ng-if="admin.isAuthenticated() && admin.showAdmin">
 
@@ -17,7 +17,7 @@
 				<ul class="userList-list">
 					<li ng-repeat="user in admin.users | orderBy:'displayName'" class="userList-item user clearfix">
 						<img class="user-picture" ng-src="{{::user.picture}}"/>
-						<span class="user-displayName">{{user.displayName}}</span>
+						<span class="user-displayName" ng-bind="user.displayName"></span>
 						<i ng-if="user.isAdmin" class="fa fa-wrench" title="Admin"></i>
 						<i class="user-logins fa fa-{{login}}" ng-repeat="login in user.linkedAccounts"></i>
 					</li>

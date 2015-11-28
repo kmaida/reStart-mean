@@ -1,0 +1,23 @@
+<article id="content-wrapper" class="content-wrapper home-wrapper">
+	<section id="content-main" class="content-main home-content clearfix" ng-cloak>
+
+		<div ng-if="home.isAuthenticated()">
+			<h1 class="content-heading" ng-bind="::home.localData.title"></h1>
+
+			<user></user>
+
+			<p ng-bind-html="home.stringOfHTML | trustAsHTML"></p>
+
+			<div id="markupView" class="markupView" ng-switch="home.viewformat">
+				<div ng-switch-when="large">
+					<section ng-include="'ng-app/pages/home/large.tpl.html'"></section>
+				</div>
+
+				<div ng-switch-when="small">
+					<section ng-include="'ng-app/pages/home/small.tpl.html'"></section>
+				</div>
+			</div>
+		</div>
+
+	</section>
+</article>

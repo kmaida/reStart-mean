@@ -3,12 +3,16 @@
 	'use strict';
 
 	angular
-		.module('myApp')
+		.module('reStart-mean')
 		.factory('User', User);
 
 	User.$inject = ['OAUTH'];
 
 	function User(OAUTH) {
+		// callable members
+		return {
+			getLinkedAccounts: getLinkedAccounts
+		};
 
 		/**
 		 * Create array of a user's currently-linked account logins
@@ -29,9 +33,5 @@
 
 			return linkedAccounts;
 		}
-
-		return {
-			getLinkedAccounts: getLinkedAccounts
-		};
 	}
 })();

@@ -1,2 +1,6 @@
-angular
-	.module('myApp', ['ngRoute', 'ngResource', 'ngSanitize', 'ngMessages', 'mediaCheck', 'satellizer']);
+(function() {
+	'use strict';
+
+	angular
+		.module('reStart-mean', ['ngRoute', 'ngResource', 'ngSanitize', 'ngMessages', 'mediaCheck', 'resize', 'satellizer']);
+})();

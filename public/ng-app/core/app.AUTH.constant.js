@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular
-		.module('myApp')
+		.module('reStart-mean')
 		.constant('APPAUTH', {
 			LOGIN_URL: {
 				// change PROD domain to your own

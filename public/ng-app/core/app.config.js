@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular
-		.module('myApp')
+		.module('reStart-mean')
 		.config(appConfig);
 
 	appConfig.$inject = ['$routeProvider', '$locationProvider'];
@@ -11,30 +11,32 @@
 	function appConfig($routeProvider, $locationProvider) {
 		$routeProvider
 			.when('/', {
-				templateUrl: 'ng-app/home/Home.view.html',
+				templateUrl: 'ng-app/pages/home/Home.view.html',
 				controller: 'HomeCtrl',
 				controllerAs: 'home',
 				secure: true
 			})
 			.when('/login', {
-				templateUrl: 'ng-app/login/Login.view.html',
+				templateUrl: 'ng-app/pages/login/Login.view.html',
 				controller: 'LoginCtrl',
 				controllerAs: 'login'
 			})
 			.when('/account', {
-				templateUrl: 'ng-app/account/Account.view.html',
+				templateUrl: 'ng-app/pages/account/Account.view.html',
 				controller: 'AccountCtrl',
 				controllerAs: 'account',
 				secure: true
 			})
 			.when('/admin', {
-				templateUrl: 'ng-app/admin/Admin.view.html',
+				templateUrl: 'ng-app/pages/admin/Admin.view.html',
 				controller: 'AdminCtrl',
 				controllerAs: 'admin',
 				secure: true
 			})
 			.otherwise({
-				redirectTo: '/'
+				templateUrl: 'ng-app/pages/Error404/Error404.view.html',
+				controller: 'Error404Ctrl',
+				controllerAs: 'e404'
 			});
 
 		$locationProvider

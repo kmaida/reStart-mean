@@ -1,7 +1,7 @@
-<article id="content-wrapper" class="content-wrapper account-wrapper" view-switch>
+<article id="content-wrapper" class="content-wrapper account-wrapper">
 	<section id="content-main" class="content-main account-main clearfix" ng-cloak>
 
-		<h1 class="content-heading">My Account</h1>
+		<h1 class="content-heading" ng-bind="::account.title"></h1>
 
 		<div ng-if="account.errorGettingUser" class="alert alert-danger">
 			<i class="fa fa-warning"></i> There was an error retrieving your information!
@@ -65,7 +65,7 @@
 
 							<div class="panel-body">
 								<p ng-if="!account.user[login.account]">
-									Visit <a href="{{::login.url}}">{{::login.url}}</a> to view your account or sign&nbsp;up.
+									Visit <a href="{{::login.url}}" ng-bind="::login.url"></a> to view your account or sign&nbsp;up.
 								</p>
 
 								<p ng-if="account.user[login.account]">
