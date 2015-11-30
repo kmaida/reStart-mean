@@ -14,7 +14,7 @@
 		// bindable members
 		login.logins = OAUTH.LOGINS;
 		login.loggingIn = false;
-		login.authenticate = _authenticate;
+		login.authenticate = authenticate;
 
 		_init();
 
@@ -62,7 +62,7 @@
 		 *
 		 * @param {string} provider - (twitter, facebook, github, google)
 		 */
-		function _authenticate(provider) {
+		function authenticate(provider) {
 			login.loggingIn = true;
 
 			$auth.authenticate(provider)

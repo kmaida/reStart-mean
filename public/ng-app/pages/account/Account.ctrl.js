@@ -15,10 +15,10 @@
 		account.title = 'My Account';
 		account.logins = OAUTH.LOGINS;  // All available login services
 		account.isAuthenticated = Utils.isAuthenticated;
-		account.getProfile = _getProfile;
-		account.updateProfile = _updateProfile;
-		account.link = _link;
-		account.unlink = _unlink;
+		account.getProfile = getProfile;
+		account.updateProfile = updateProfile;
+		account.link = link;
+		account.unlink = unlink;
 
 		_init();
 
@@ -46,13 +46,13 @@
 		 * @private
 		 */
 		function _activate() {
-			return _getProfile();
+			return getProfile();
 		}
 
 		/**
 		 * Get user's profile information
 		 */
-		function _getProfile() {
+		function getProfile() {
 			$scope.$emit('loading-on');
 			return UserData.getUser().then(_getUserSuccess, _getUserError);
 		}
@@ -116,7 +116,7 @@
 		 * Update user's profile information
 		 * Called on submission of update form
 		 */
-		 function _updateProfile() {
+		 function updateProfile() {
 			var profileData = { displayName: account.user.displayName };
 
 			if (!!account.user.displayName) {
@@ -155,7 +155,7 @@
 		 *
 		 * @param {string} provider
 		 */
-		function _link(provider) {
+		function link(provider) {
 			return $auth.link(provider)
 				.then(account.getProfile)
 				.catch(_linkCatch);
@@ -176,7 +176,7 @@
 		 *
 		 * @param {string} provider
 		 */
-		function _unlink(provider) {
+		function unlink(provider) {
 			return $auth.unlink(provider)
 				.then(account.getProfile)
 				.catch(_unlinkCatch);
