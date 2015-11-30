@@ -12,10 +12,10 @@
 		var header = this;
 
 		// bindable members
-		header.logout = _logout;
+		header.logout = logout;
 		header.isAuthenticated = Utils.isAuthenticated;
-		header.indexIsActive = _indexIsActive;
-		header.navIsActive = _navIsActive;
+		header.indexIsActive = indexIsActive;
+		header.navIsActive = navIsActive;
 
 		_init();
 
@@ -64,7 +64,7 @@
 		/**
 		 * Log the user out of whatever authentication they've signed in with
 		 */
-		function _logout() {
+		function logout() {
 			header.adminUser = undefined;
 			$auth.logout();
 			$location.path('/login');
@@ -81,7 +81,7 @@
 		 */
 		function _checkUserAdmin() {
 			// if user is authenticated and not defined yet, check if they're an admin
-			if ($auth.isAuthenticated() && header.adminUser === undefined) {
+			if (Utils.isAuthenticated() && header.adminUser === undefined) {
 				UserData.getUser()
 					.then(function(data) {
 						header.adminUser = data.isAdmin;
@@ -91,8 +91,6 @@
 
 		function _getUserSuccess(data) {
 			header.adminUser = data.isAdmin;
-
-
 		}
 
 		/**
@@ -100,9 +98,8 @@
 		 *
 		 * @param {string} path
 		 * @returns {boolean}
-		 * @private
 		 */
-		function _indexIsActive(path) {
+		function indexIsActive(path) {
 			// path should be '/'
 			return $location.path() === path;
 		}
@@ -112,9 +109,8 @@
 		 *
 		 * @param {string} path
 		 * @returns {boolean}
-		 * @private
 		 */
-		function _navIsActive(path) {
+		function navIsActive(path) {
 			return $location.path().substr(0, path.length) === path;
 		}
 	}
