@@ -19,4 +19,4 @@
 	angular
 		.module('reStart-mean')
 		.constant('APPAUTH', APPAUTH);
-})();
+}());

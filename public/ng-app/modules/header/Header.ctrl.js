@@ -81,7 +81,7 @@
 		 */
 		function _checkUserAdmin() {
 			// if user is authenticated and not defined yet, check if they're an admin
-			if (Utils.isAuthenticated() && header.adminUser === undefined) {
+			if (Utils.isAuthenticated() && angular.isUndefined(header.adminUser)) {
 				UserData.getUser()
 					.then(function(data) {
 						header.adminUser = data.isAdmin;
@@ -115,4 +115,4 @@
 		}
 	}
 
-})();
+}());

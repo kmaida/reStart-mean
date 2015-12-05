@@ -83,4 +83,4 @@
 			home.viewformat = 'large';
 		}
 	}
-})();
+}());

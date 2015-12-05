@@ -27,4 +27,4 @@
 	angular
 		.module('reStart-mean')
 		.constant('OAUTH', OAUTH);
-})();
+}());

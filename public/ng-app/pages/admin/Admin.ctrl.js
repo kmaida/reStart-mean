@@ -74,4 +74,4 @@
 			$scope.$emit('loading-off');
 		}
 	}
-})();
+}());

@@ -96,7 +96,7 @@
 		function _authCatch(response) {
 			console.log(response.data);
 			login.loggingIn = 'error';
-			login.loginMsg = ''
+			login.loginMsg = '';
 		}
 	}
-})();
+}());

@@ -10,4 +10,4 @@
 	angular
 		.module('reStart-mean')
 		.constant('MQ', MQ);
-})();
+}());

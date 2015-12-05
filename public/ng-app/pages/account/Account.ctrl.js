@@ -116,10 +116,10 @@
 		 * Update user's profile information
 		 * Called on submission of update form
 		 */
-		 function updateProfile() {
+		function updateProfile() {
 			var profileData = { displayName: account.user.displayName };
 
-			if (!!account.user.displayName) {
+			if (account.user.displayName) {
 				// Set status to Saving... and update upon success or error in callbacks
 				account.btnSaveText = 'Saving...';
 
@@ -192,4 +192,4 @@
 			alert(response.data ? response.data.message : 'Could not unlink ' + provider + ' account');
 		}
 	}
-})();
+}());

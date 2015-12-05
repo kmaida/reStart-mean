@@ -56,10 +56,19 @@
 	 * @param $auth
 	 */
 	function appRun($rootScope, $location, $auth) {
-		$rootScope.$on('$routeChangeStart', function(event, next, current) {
+		/**
+		 * $on routeChangeStart
+		 * Check authentication and go to proper path
+		 *
+		 * @param event
+		 * @param next
+		 * @param current
+		 * @private
+		 */
+		function _$onRouteChangeStart(event, next, current) {
 			var _path;
 
-			if (next && next.$$route && next.$$route.secure && !$auth.isAuthenticated()) {
+			if (next && next.$$route && next.$$route.secure && !$auth.isAuthenticated()) {  // eslint-disable-line angular/no-private-call
 				_path = $location.path();
 
 				$rootScope.authPath = _path.indexOf('login') === -1 ? _path : '/';
@@ -69,6 +78,8 @@
 					$location.path('/login');
 				});
 			}
-		});
+		}
+
+		$rootScope.$on('$routeChangeStart', _$onRouteChangeStart); // eslint-disable-line angular/on-watch
 	}
-})();
+}());

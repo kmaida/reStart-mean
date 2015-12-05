@@ -25,4 +25,4 @@
 			Page.setTitle(e404.title);
 		}
 	}
-})();
+}());

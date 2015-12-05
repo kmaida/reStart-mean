@@ -9,6 +9,11 @@
 	LocalData.$inject = ['$http', 'Res'];
 
 	function LocalData($http, Res) {
+		// callable members
+		return {
+			getJSON: getJSON
+		};
+
 		/**
 		 * Get local JSON data file and return results
 		 *
@@ -19,10 +24,5 @@
 				.get('/data/data.json')
 				.then(Res.success, Res.error);
 		}
-
-		// callable members
-		return {
-			getJSON: getJSON
-		}
 	}
-})();
+}());
