@@ -179,9 +179,7 @@ function serve() {
 
 /**
  * Default build task
- *
  * If not production, watch for file changes and execute the appropriate task
- *
  * Use "gulp --prod" to trigger production/build mode from commandline
  */
 function defaultTask() {

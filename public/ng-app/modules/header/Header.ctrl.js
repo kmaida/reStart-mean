@@ -27,7 +27,6 @@
 		function _init() {
 			// check if user is an admin
 			_checkUserAdmin();
-
 			_activate();
 
 			// check if user is an admin on location change
@@ -55,7 +54,6 @@
 		 */
 		function _localDataSuccess(data) {
 			header.localData = data;
-
 			$scope.$emit('loading-off');
 
 			return header.localData;
@@ -82,15 +80,21 @@
 		function _checkUserAdmin() {
 			// if user is authenticated and not defined yet, check if they're an admin
 			if (Utils.isAuthenticated() && angular.isUndefined(header.adminUser)) {
-				UserData.getUser()
-					.then(function(data) {
-						header.adminUser = data.isAdmin;
-					});
+				UserData.getUser().then(_getUserSuccess);
 			}
 		}
 
+		/**
+		 * Successfully retrieved user data
+		 *
+		 * @param data
+		 * @returns {promise}
+		 * @private
+		 */
 		function _getUserSuccess(data) {
 			header.adminUser = data.isAdmin;
+
+			return header.adminUser;
 		}
 
 		/**
