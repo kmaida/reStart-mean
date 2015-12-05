@@ -10,6 +10,7 @@ Boilerplate MEAN stack application with simple authentication via third-party Oa
 * FontAwesome (CDN)
 * Bootstrap 3 (local)
 * Gulp
+* ESLint
 
 ## Demo
 
@@ -17,13 +18,8 @@ Demo can be found at [http://restart-mean.kmaida.net](http://restart-mean.kmaida
  
 ## Changelog
 
+* **v0.2.1** - 12/4/15: Add ESLint and correct any errors found; upgrade to Angular v1.4.8
 * **v0.2.0** - 11/27/15: Refactoring and major updates to adhere to styleguide and updated reStart-angular
 * **v0.1.7** - 10/18/15: Upgrade to Angular v1.4.7, update gulp-sass and package.json 
 * **v0.1.6** - 8/23/15: Upgrade to Angular v1.4.4, jQuery v2.1.4, update license
 * **v0.1.5** - 5/29/15: Upgrade to Angular v1.4.0 
-* **v0.1.4** - 4/29/15: Additional enhancements to styles, features and tightening up, prepare for deployment 
-* **v0.1.3** - 4/17/15: Modified services to throw errors when returning strings, add UI alerts when API calls error,
- more cleanup 
-* **v0.1.2** - 4/13/15: Cleaned up and commented, demo deployed
-* **v0.1.1** - 4/11/15: Base styles and user functionality in place
-* **v0.1.0** - 4/6/15: Upload files, improve services
