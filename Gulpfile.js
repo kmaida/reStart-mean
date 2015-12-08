@@ -3,7 +3,6 @@
  */
 
 var gulp = require('gulp');
-var connect = require('gulp-connect');
 var gutil = require('gulp-util');
 var uglify = require('gulp-uglify');
 var eslint = require('gulp-eslint');
