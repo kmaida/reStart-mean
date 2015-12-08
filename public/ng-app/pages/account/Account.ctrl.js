@@ -117,14 +117,14 @@
 		 * Called on submission of update form
 		 */
 		function updateProfile() {
-			var profileData = { displayName: account.user.displayName };
+			var _profileData = { displayName: account.user.displayName };
 
 			if (account.user.displayName) {
 				// Set status to Saving... and update upon success or error in callbacks
 				account.btnSaveText = 'Saving...';
 
 				// Update the user, passing profile data and assigning success and error callbacks
-				UserData.updateUser(profileData).then(_updateSuccess, _updateError);
+				UserData.updateUser(_profileData).then(_updateSuccess, _updateError);
 			}
 		}
 
@@ -154,6 +154,7 @@
 		 * Link third-party provider
 		 *
 		 * @param {string} provider
+		 * @returns {promise}
 		 */
 		function link(provider) {
 			return $auth.link(provider)
@@ -175,6 +176,7 @@
 		 * Unlink third-party provider
 		 *
 		 * @param {string} provider
+		 * @returns {promise}
 		 */
 		function unlink(provider) {
 			return $auth.unlink(provider)
