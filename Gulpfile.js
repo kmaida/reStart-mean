@@ -94,15 +94,15 @@ function errorHandler(err){
  */
 function styles() {
 	return gulp.src(files.scssSrc)
-	.pipe(sourcemaps.init())
-	.pipe(sass({ style: 'expanded' })).on('error', errorHandler)
-	.pipe(autoprefixer({
-		browsers: ['last 2 versions', '> 1%'],
-		cascade: false
-	})).on('error', errorHandler)
-	.pipe(sourcemaps.write())
-	.pipe(isProduction ? minifyCSS() : gutil.noop() )
-	.pipe(gulp.dest(path.css.dest));
+		.pipe(sourcemaps.init())
+		.pipe(sass({ style: 'expanded' })).on('error', errorHandler)
+		.pipe(autoprefixer({
+			browsers: ['last 2 versions', '> 1%'],
+			cascade: false
+		})).on('error', errorHandler)
+		.pipe(sourcemaps.write())
+		.pipe(isProduction ? minifyCSS() : gutil.noop() )
+		.pipe(gulp.dest(path.css.dest));
 }
 
 
@@ -119,15 +119,15 @@ function jsValidate() {
 	}
 
 	return gulp.src(files.jsUserSrcAll)
-	.pipe(eslint())
-	.pipe(eslint.format())
-	.pipe(eslint.results(function(results) {
-		if (results.warningCount == 0 && results.errorCount == 0) {
-			gutil.log(gutil.colors.green('Congratulations! No ESLint warnings or errors.'));
-		} else {
-			gutil.beep();
-		}
-	}));
+		.pipe(eslint())
+		.pipe(eslint.format())
+		.pipe(eslint.results(function(results) {
+			if (results.warningCount == 0 && results.errorCount == 0) {
+				gutil.log(gutil.colors.green('Congratulations! No ESLint warnings or errors.'));
+			} else {
+				gutil.beep();
+			}
+		}));
 }
 
 /**
@@ -141,11 +141,11 @@ function jsValidate() {
  */
 function jsUser() {
 	return gulp.src(files.jsUserSrcAssets)
-	.pipe(sourcemaps.init())
-	.pipe(concat(jsUserScript))
-	.pipe(sourcemaps.write())
-	.pipe(isProduction ? uglify() : gutil.noop() )
-	.pipe(gulp.dest(path.js.dest));
+		.pipe(sourcemaps.init())
+		.pipe(concat(jsUserScript))
+		.pipe(sourcemaps.write())
+		.pipe(isProduction ? uglify() : gutil.noop() )
+		.pipe(gulp.dest(path.js.dest));
 }
 
 /**
@@ -157,9 +157,9 @@ function jsUser() {
  */
 function jsVendor() {
 	return gulp.src(files.jsVendorSrc)
-	.pipe(concat('vendor.js'))
-	.pipe(isProduction ? uglify() : gutil.noop() )	// to unminify vendor in dev, remove "isProduction" ternary
-	.pipe(gulp.dest(path.jsVendor.dest));
+		.pipe(concat('vendor.js'))
+		.pipe(isProduction ? uglify() : gutil.noop() )	// to unminify vendor in dev, remove "isProduction" ternary
+		.pipe(gulp.dest(path.jsVendor.dest));
 }
 
 /**
@@ -173,11 +173,11 @@ function jsVendor() {
  */
 function jsAngular() {
 	return gulp.src([jsModuleFile].concat(files.jsUserSrcAngular))
-	.pipe(sourcemaps.init())
-	.pipe(concat(jsAngularScript))
-	.pipe(sourcemaps.write())
-	.pipe(isProduction ? uglify() : gutil.noop() )
-	.pipe(gulp.dest(path.jsAngular.dest));
+		.pipe(sourcemaps.init())
+		.pipe(concat(jsAngularScript))
+		.pipe(sourcemaps.write())
+		.pipe(isProduction ? uglify() : gutil.noop() )
+		.pipe(gulp.dest(path.jsAngular.dest));
 }
 
 /**
