@@ -181,11 +181,11 @@ module.exports = function(app, config) {
 	//			if (!isMatch) {
 	//				return res.status(401).send({ message: 'Wrong email and/or password' });
 	//			}
-	//			res.send({ token: createToken(user) });
+	//			res.send({ token: createJWT(user) });
 	//		});
 	//	});
 	//});
-
+	//
 	/*
 	 |--------------------------------------------------------------------------
 	 | Create Email and Password Account
@@ -201,8 +201,9 @@ module.exports = function(app, config) {
 	//			email: req.body.email,
 	//			password: req.body.password
 	//		});
-	//		user.save(function() {
-	//			res.send({ token: createToken(user) });
+	//		user.save(function(error,result) {
+	//			if (error) res.status(500).send({ message: error.message });
+	//			res.send({ token: createJWT(result) });
 	//		});
 	//	});
 	//});
@@ -230,7 +231,9 @@ module.exports = function(app, config) {
 
 			// Step 2. Retrieve profile information about the current user.
 			request.get({ url: peopleApiUrl, headers: headers, json: true }, function(err, response, profile) {
-
+				if (profile.error) {
+					return res.status(500).send({message: profile.error.message});
+				}
 				// Step 3a. Link user accounts.
 				if (req.headers.authorization) {
 					User.findOne({ google: profile.sub }, function(err, existingUser) {
@@ -246,6 +249,10 @@ module.exports = function(app, config) {
 							user.google = profile.sub;
 							user.picture = user.picture || profile.picture.replace('sz=50', 'sz=200') || _defaultPicture;
 							user.displayName = user.displayName || profile.name;
+
+							// TODO: to create an admin user, allow one-time isAdmin = true in one of the account creations
+							// user.isAdmin = true;
+
 							user.save(function() {
 								var token = createJWT(user);
 								res.send({ token: token });
@@ -262,10 +269,6 @@ module.exports = function(app, config) {
 						user.google = profile.sub;
 						user.picture = profile.picture.replace('sz=50', 'sz=200');
 						user.displayName = profile.name;
-
-						// TODO: to create an admin user, allow one-time isAdmin = true in one of the account creations
-						// user.isAdmin = true;
-
 						user.save(function(err) {
 							var token = createJWT(user);
 							res.send({ token: token });
@@ -347,8 +350,9 @@ module.exports = function(app, config) {
 	 |--------------------------------------------------------------------------
 	 */
 	app.post('/auth/facebook', function(req, res) {
-		var accessTokenUrl = 'https://graph.facebook.com/v2.3/oauth/access_token';
-		var graphApiUrl = 'https://graph.facebook.com/v2.3/me';
+		var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name'];
+		var accessTokenUrl = 'https://graph.facebook.com/v2.5/oauth/access_token';
+		var graphApiUrl = 'https://graph.facebook.com/v2.5/me?fields=' + fields.join(',');
 		var params = {
 			code: req.body.code,
 			client_id: req.body.clientId,
