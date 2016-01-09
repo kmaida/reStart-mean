@@ -103,7 +103,7 @@
 		 * @private
 		 */
 		function _routeChangeSuccess($event, current, previous) {
-			if (previous) {
+			if (angular.isObject(previous)) {
 				_mc.matchCurrent(MQ.SMALL);
 			}
 
